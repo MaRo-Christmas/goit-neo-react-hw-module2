@@ -1,7 +1,7 @@
-.wrapper {
-  font-size: 2rem;
+.feedback {
+  margin-top: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  gap: 1rem;
+  text-align: left;
 }

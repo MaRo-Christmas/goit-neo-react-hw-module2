@@ -1,12 +1,13 @@
-import css from './Description.module.css';
+import css from "./Description.module.css";
 
-const Description = ({ name, title }) => {
+export default function Description() {
   return (
-    <div className={css.descWrap}>
-      <h1 className={css.heading}>{name}</h1>
-      <p className={css.descP}>{title}</p>
-    </div>
+    <>
+      <h1 className={css.title}>Sip Happens Café</h1>
+      <p className={css.details}>
+        Please leave your feedback about our service by selecting one of the
+        options below.
+      </p>
+    </>
   );
-};
-
-export default Description;
+}

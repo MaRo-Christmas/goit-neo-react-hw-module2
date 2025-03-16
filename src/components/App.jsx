@@ -1,73 +1,68 @@
+import { useState, useEffect } from 'react';
+import css from './App.module.css';
+
 import Description from './Description/Description';
 import Options from './Options/Options';
 import Feedback from './Feedback/Feedback';
 import Notification from './Notification/Notification';
-import { useState, useEffect } from 'react';
-import 'modern-normalize';
-import '../index.css';
 
-const App = () => {
-  const loadState = () => {
-    const savedState = localStorage.getItem('feedbackState');
-    if (savedState) {
-      return JSON.parse(savedState);
+const defaultFeedbacks = {
+  good: 0,
+  neutral: 0,
+  bad: 0,
+};
+
+const FEEDBACK_STORAGE_KEY = 'cafe.feedback';
+
+function App() {
+  const [feedbacks, setFeedbacks] = useState(() => {
+    const initialFeedbacks = localStorage.getItem(FEEDBACK_STORAGE_KEY);
+    try {
+      return initialFeedbacks ? JSON.parse(initialFeedbacks) : defaultFeedbacks;
+    } catch (error) {
+      console.error('Error parsing feedbacks from localStorage', error);
+      return defaultFeedbacks;
     }
-    return {
-      good: 0,
-      neutral: 0,
-      bad: 0,
-    };
-  };
-  const [values, setValues] = useState(loadState);
+  });
 
   useEffect(() => {
-    localStorage.setItem('feedbackState', JSON.stringify(values));
-  }, [values]);
+    localStorage.setItem(FEEDBACK_STORAGE_KEY, JSON.stringify(feedbacks));
+  }, [feedbacks]);
 
-  const countTotalFeedback = () =>
-    Object.values(values).reduce((acc, value) => acc + value, 0);
-
-  const updateFeedback = feedbackType => {
-    setValues(prevValues => ({
-      ...prevValues,
-      [feedbackType]: prevValues[feedbackType] + 1,
-    }));
+  const handleFeedback = feedbackType => {
+    setFeedbacks(prev => ({ ...prev, [feedbackType]: prev[feedbackType] + 1 }));
   };
 
-  const clearFeedback = () => {
-    setValues(prevValues => {
-      const clearedValues = Object.keys(prevValues).reduce((acc, key) => {
-        acc[key] = 0;
-        return acc;
-      }, {});
-      return clearedValues;
-    });
+  const handleReset = () => {
+    setFeedbacks(defaultFeedbacks);
   };
+
+  const totalFeedback = Object.values(feedbacks).reduce(
+    (acc, count) => acc + count,
+    0
+  );
+
+  const positiveFeedback = Math.round((feedbacks.good / totalFeedback) * 100);
 
   return (
-    <div className="App">
-      <Description
-        name="Sip Happens Café"
-        title="Please leave your feedback about our service by selecting one of the options below."
-      />
-
+    <div className={css.container}>
+      <Description />
       <Options
-        options={Object.keys(values)}
-        onClick={updateFeedback}
-        total={countTotalFeedback}
-        clear={clearFeedback}
+        hasFeedback={!!totalFeedback}
+        onVote={handleFeedback}
+        onReset={handleReset}
       />
-      {countTotalFeedback() > 0 ? (
+      {totalFeedback ? (
         <Feedback
-          options={values}
-          total={countTotalFeedback()}
-          positive={Math.round((values.good / countTotalFeedback()) * 100)}
+          feedbacks={feedbacks}
+          total={totalFeedback}
+          positivePercentage={positiveFeedback}
         />
       ) : (
         <Notification>No feedback yet</Notification>
       )}
     </div>
   );
-};
+}
 
 export default App;

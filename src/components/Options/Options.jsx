@@ -1,15 +1,34 @@
-import Buttons from '../Buttons/Buttons';
-import css from './Options.module.css';
+import css from "./Options.module.css";
 
-const Options = ({ options, onClick, total, clear }) => (
-  <div className={css.wrapper}>
-    {options.map(option => (
-      <Buttons key={option} onClick={() => onClick(option)}>
-        {option}
-      </Buttons>
-    ))}
-    {total() > 0 ? <Buttons onClick={clear}>Reset</Buttons> : null}
-  </div>
-);
+const options = ["good", "neutral", "bad"];
 
-export default Options;
+export default function Options({ hasFeedback, onVote, onReset }) {
+  return (
+    <ul className={css.options}>
+      {options.map((option) => (
+        <li key={option}>
+          <button
+            className={css.btn}
+            type="button"
+            onClick={() => {
+              onVote(option);
+            }}
+          >
+            {option}
+          </button>
+        </li>
+      ))}
+      {hasFeedback > 0 && (
+        <li>
+          <button
+            className={css.btn}
+            type="button"
+            onClick={onReset}
+          >
+            Reset
+          </button>
+        </li>
+      )}
+    </ul>
+  );
+}

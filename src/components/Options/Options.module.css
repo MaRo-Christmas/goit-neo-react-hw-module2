@@ -1,7 +1,25 @@
-.wrapper {
+.options {
+  margin-top: 1.5rem;
   display: flex;
-  flex-direction: row;
-  justify-content: center;
-  gap: 12px;
-  margin-bottom: 24px;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: flex-start;
+  width: calc(175px * 2 + 1rem);
+}
+
+.btn {
+  background-color: #e0e0e0;
+  color: #000;
+  border: 1px solid #999;
+  padding: 10px 16px;
+  font-size: 1rem;
+  text-transform: capitalize;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background-color 0.2s, border-color 0.2s;
+}
+
+.btn:hover {
+  background-color: #d6d6d6;
+  border-color: #777;
 }

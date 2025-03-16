@@ -1,15 +1,15 @@
 import css from './Feedback.module.css';
 
-const Feedback = ({ options, total, positive }) => (
-  <div className={css.wrapper}>
-    {Object.keys(options).map(option => (
-      <p key={option}>
-        {option.charAt(0).toUpperCase() + option.slice(1)}: {options[option]}
-      </p>
-    ))}
-    <p>Total: {total}</p>
-    <p>Positive: {positive}%</p>
-  </div>
-);
+export default function Feedback({ feedbacks, total, positivePercentage }) {
+  const { good, neutral, bad } = feedbacks;
 
-export default Feedback;
+  return (
+    <ul className={css.feedback}>
+      <li>Good: {good}</li>
+      <li>Neutral: {neutral}</li>
+      <li>Bad: {bad}</li>
+      <li>Total: {total}</li>
+      <li>Positive: {total > 0 ? positivePercentage : 0}%</li>
+    </ul>
+  );
+}

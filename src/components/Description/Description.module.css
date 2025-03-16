@@ -1,10 +1,10 @@
-.descWrap {
-  margin-bottom: 24px;
-}
-.heading {
-  font-size: 4rem;
+.title {
+  font-weight: bold;
+  text-transform: uppercase;
+  text-align: left;
 }
 
-.descP {
-  font-size: 2rem;
+.details {
+  margin-top: 16px;
+  text-align: left;
 }

@@ -1,3 +1,4 @@
-.notifP {
-  font-size: 2rem;
+.notification {
+  margin-top: 2rem;
+  color: var(--text-color);
 }
